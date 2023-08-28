@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{91084CF9-9CF3-44EB-BD5A-3B1CBAE9E606}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{E30F37CF-8514-44F6-A5E5-EB41E90CB05F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Intergration", "Intergration", "{0105B9CA-B9FB-436A-965F-169448FFAA7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{90C3303A-1DCD-4E9B-BEAF-C666B5BE478D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.Web", "BirdTrading.Web\BirdTrading.Web.csproj", "{4CE28DB0-E2B0-45AB-96DE-3C1600B4900C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.Services.AuthAPI", "BirdTrading.Services.AuthAPI\BirdTrading.Services.AuthAPI.csproj", "{32CE51AA-8FE6-4093-BE8B-DA1C1C311E63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.Services.ProductAPI", "BirdTrading.Services.ProductAPI\BirdTrading.Services.ProductAPI.csproj", "{42E1B332-081C-47C2-9CB9-A35623D1EEAA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.Service.ShoppingCartAPI", "BirdTrading.Service.ShoppingCartAPI\BirdTrading.Service.ShoppingCartAPI.csproj", "{F4D2EF08-95EC-4B3C-9918-3BC7BBAE98A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BirdTrading.Service.CouponAPI", "BirdTrading.Service.CouponAPI\BirdTrading.Service.CouponAPI.csproj", "{0818CC84-3134-4E75-9405-5F107337F05D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CE28DB0-E2B0-45AB-96DE-3C1600B4900C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CE28DB0-E2B0-45AB-96DE-3C1600B4900C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CE28DB0-E2B0-45AB-96DE-3C1600B4900C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CE28DB0-E2B0-45AB-96DE-3C1600B4900C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32CE51AA-8FE6-4093-BE8B-DA1C1C311E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32CE51AA-8FE6-4093-BE8B-DA1C1C311E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32CE51AA-8FE6-4093-BE8B-DA1C1C311E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32CE51AA-8FE6-4093-BE8B-DA1C1C311E63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42E1B332-081C-47C2-9CB9-A35623D1EEAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42E1B332-081C-47C2-9CB9-A35623D1EEAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42E1B332-081C-47C2-9CB9-A35623D1EEAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42E1B332-081C-47C2-9CB9-A35623D1EEAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4D2EF08-95EC-4B3C-9918-3BC7BBAE98A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4D2EF08-95EC-4B3C-9918-3BC7BBAE98A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4D2EF08-95EC-4B3C-9918-3BC7BBAE98A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4D2EF08-95EC-4B3C-9918-3BC7BBAE98A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0818CC84-3134-4E75-9405-5F107337F05D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0818CC84-3134-4E75-9405-5F107337F05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0818CC84-3134-4E75-9405-5F107337F05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0818CC84-3134-4E75-9405-5F107337F05D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4CE28DB0-E2B0-45AB-96DE-3C1600B4900C} = {91084CF9-9CF3-44EB-BD5A-3B1CBAE9E606}
+		{32CE51AA-8FE6-4093-BE8B-DA1C1C311E63} = {90C3303A-1DCD-4E9B-BEAF-C666B5BE478D}
+		{42E1B332-081C-47C2-9CB9-A35623D1EEAA} = {90C3303A-1DCD-4E9B-BEAF-C666B5BE478D}
+		{F4D2EF08-95EC-4B3C-9918-3BC7BBAE98A3} = {90C3303A-1DCD-4E9B-BEAF-C666B5BE478D}
+		{0818CC84-3134-4E75-9405-5F107337F05D} = {90C3303A-1DCD-4E9B-BEAF-C666B5BE478D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C73EEB23-4FCD-44A5-88AE-1301B63064D7}
+	EndGlobalSection
+EndGlobal
