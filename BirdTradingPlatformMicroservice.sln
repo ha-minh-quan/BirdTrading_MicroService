@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.Services.Produc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.Service.ShoppingCartAPI", "BirdTrading.Service.ShoppingCartAPI\BirdTrading.Service.ShoppingCartAPI.csproj", "{F4D2EF08-95EC-4B3C-9918-3BC7BBAE98A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BirdTrading.Service.CouponAPI", "BirdTrading.Service.CouponAPI\BirdTrading.Service.CouponAPI.csproj", "{0818CC84-3134-4E75-9405-5F107337F05D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.Service.CouponAPI", "BirdTrading.Service.CouponAPI\BirdTrading.Service.CouponAPI.csproj", "{0818CC84-3134-4E75-9405-5F107337F05D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
