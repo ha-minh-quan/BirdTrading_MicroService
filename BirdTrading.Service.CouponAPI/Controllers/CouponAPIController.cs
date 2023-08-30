@@ -10,7 +10,7 @@ namespace BirdTrading.Service.CouponAPI.Controllers
 {
     [Route("api/coupon")]
     [ApiController]
-  ///  [Authorize]
+    [Authorize]
     public class CouponAPIController : ControllerBase
     {
         private readonly AppDbContext _db;

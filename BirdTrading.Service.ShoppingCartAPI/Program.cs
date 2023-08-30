@@ -2,6 +2,7 @@
 using AutoMapper;
 using BirdTrading.Service.ShoppingCartAPI.Service;
 using BirdTrading.Service.ShoppingCartAPI.Service.IService;
+using BirdTrading.Service.ShoppingCartAPI.Utility;
 using BirdTrading.Services.ShoppingCartAPI;
 using BirdTrading.Services.ShoppingCartAPI.Data;
 using BirdTrading.Services.ShoppingCartAPI.Extensions;
@@ -27,9 +28,11 @@ namespace BirdTrading.Service.ShoppingCartAPI
             builder.Services.AddSingleton(mapper);
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddHttpContextAccessor();  
+            builder.Services.AddScoped<BackendApiAuthenthicationHttpClientHandler>();   
             builder.Services.AddScoped<ICouponService, CouponService>();
-            builder.Services.AddHttpClient("Product", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]));
-            builder.Services.AddHttpClient("Coupon", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"]));
+            builder.Services.AddHttpClient("Product", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])).AddHttpMessageHandler<BackendApiAuthenthicationHttpClientHandler>();
+            builder.Services.AddHttpClient("Coupon", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])).AddHttpMessageHandler<BackendApiAuthenthicationHttpClientHandler>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
