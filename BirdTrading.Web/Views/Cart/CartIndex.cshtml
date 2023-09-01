@@ -1,6 +1,6 @@
 ﻿@model CartDTO
 @if(Model.CartHeader != null && Model.CartDetails?.Count()>0){
-<form method="post">
+<form method="post" asp-action="EmailCart">
     <br />
     <input asp-for="CartHeader.UserId" hidden />
     <input asp-for="CartHeader.CartHeaderId" hidden />
@@ -57,6 +57,7 @@
                 }
                 <hr />
                 <div class="row">
+                        <div class="col-6">
                     @if (string.IsNullOrEmpty(Model.CartHeader.CouponCode)) {
                         <div class="col-6">
                             <span>Coupon:</span>
@@ -73,6 +74,7 @@
                         @if(Model.CartHeader.Discount > 0){
                         <span class="text-success"> Order Discount :  @string.Format("{0:c}", Model.CartHeader.Discount)</span>
                         }
+                    </div>
                     </div>
                 </div>
             </div>

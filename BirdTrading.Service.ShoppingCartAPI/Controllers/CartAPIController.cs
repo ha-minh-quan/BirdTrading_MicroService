@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿  using AutoMapper;
+using BirdTrading.MessageBus;
 using BirdTrading.Service.CouponAPI.Models.DTO;
 using BirdTrading.Service.ShoppingCartAPI.Models;
 using BirdTrading.Service.ShoppingCartAPI.Models.DTO;
@@ -19,17 +20,23 @@ namespace BirdTrading.Service.ShoppingCartAPI.Controllers
         private ResponseDTO _response;
         private IMapper _mapper;
         private readonly AppDbContext _db;
-        private readonly IProductService _productService;
-        private readonly ICouponService _couponService;
-
+        private  IProductService _productService;
+        private  ICouponService _couponService;
+        private readonly IMessageBus _messageBus;
+        private IConfiguration _configuration;
         public CartAPIController(AppDbContext db,
-            IMapper mapper, IProductService productService, ICouponService couponService)
+            IMapper mapper, IProductService productService, 
+            ICouponService couponService,
+            IMessageBus messageBus,
+            IConfiguration configuration)
         {
             _db = db;
             this._response = new ResponseDTO();
             _mapper = mapper;
             _productService = productService;   
-            _couponService = couponService; 
+            _couponService = couponService;
+            _messageBus = messageBus;
+            _configuration = configuration; 
         }
         [HttpGet("GetCart/{userId}")]
         public async Task<ResponseDTO> GetCart(string userId)
@@ -81,6 +88,22 @@ namespace BirdTrading.Service.ShoppingCartAPI.Controllers
                 cartFromDb.CouponCode = cartDto.CartHeader.CouponCode;
                 _db.CartHeaders.Update(cartFromDb);
                 await _db.SaveChangesAsync();
+                _response.Result = true;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.ToString();
+            }
+            return _response;
+        }
+
+        [HttpPost("EmailCartRequest")]
+        public async Task<object> EmailCartRequest([FromBody] CartDTO cartDto)
+        {
+            try
+            {
+                await _messageBus.PublishMessage(cartDto, _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCartQueue"));
                 _response.Result = true;
             }
             catch (Exception ex)

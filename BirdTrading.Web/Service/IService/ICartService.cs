@@ -8,5 +8,6 @@ namespace BirdTrading.Web.Service.IService
         Task<ResponseDTO?> UpsertCartAsync(CartDTO cartDto);
         Task<ResponseDTO?> RemoveFromCartAsync(int cartDetailsId);
         Task<ResponseDTO?> ApplyCouponAsync(CartDTO cartDto);
+        Task<ResponseDTO?> EmailCart(CartDTO cartDto);
     }
 }

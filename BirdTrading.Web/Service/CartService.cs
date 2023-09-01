@@ -21,6 +21,17 @@ namespace BirdTrading.Web.Service
                 Url = SD.ShoppingCartAPIBase + "/api/cart/ApplyCoupon"
             });
         }
+
+        public async Task<ResponseDTO?> EmailCart(CartDTO cartDto)
+        {
+            return await _baseService.SendAsync(new RequestDTO()
+            {
+                ApiType = SD.ApiType.POST,
+                Data = cartDto,
+                Url = SD.ShoppingCartAPIBase + "/api/cart/EmailCartRequest"
+            });
+        }
+
         public async Task<ResponseDTO?> GetCartByUserIdAsnyc(string userId)
         {
             return await _baseService.SendAsync(new RequestDTO()

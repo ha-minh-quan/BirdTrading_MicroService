@@ -1,5 +1,6 @@
 
 using AutoMapper;
+using BirdTrading.MessageBus;
 using BirdTrading.Service.ShoppingCartAPI.Service;
 using BirdTrading.Service.ShoppingCartAPI.Service.IService;
 using BirdTrading.Service.ShoppingCartAPI.Utility;
@@ -7,6 +8,7 @@ using BirdTrading.Services.ShoppingCartAPI;
 using BirdTrading.Services.ShoppingCartAPI.Data;
 using BirdTrading.Services.ShoppingCartAPI.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Azure.Amqp.Framing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -31,6 +33,7 @@ namespace BirdTrading.Service.ShoppingCartAPI
             builder.Services.AddHttpContextAccessor();  
             builder.Services.AddScoped<BackendApiAuthenthicationHttpClientHandler>();   
             builder.Services.AddScoped<ICouponService, CouponService>();
+            builder.Services.AddScoped<IMessageBus, MessageBusClass>();
             builder.Services.AddHttpClient("Product", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])).AddHttpMessageHandler<BackendApiAuthenthicationHttpClientHandler>();
             builder.Services.AddHttpClient("Coupon", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])).AddHttpMessageHandler<BackendApiAuthenthicationHttpClientHandler>();
             builder.Services.AddControllers();
