@@ -10,7 +10,7 @@ namespace BirdTrading.Service.CouponAPI.Controllers
 {
     [Route("api/coupon")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class CouponAPIController : ControllerBase
     {
         private readonly AppDbContext _db;
@@ -63,7 +63,7 @@ namespace BirdTrading.Service.CouponAPI.Controllers
 
         [HttpGet]
         [Route("GetByCode/{code}")]
-        public ResponseDTO GetBycode(String code)
+        public ResponseDTO GetBycode(string code)
         {
             try
             {

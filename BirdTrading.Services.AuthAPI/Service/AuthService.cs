@@ -78,8 +78,9 @@ namespace BirdTrading.Services.AuthAPI.Service
                 Email = registerationRequestDTO.Email,
                 NormalizedEmail = registerationRequestDTO.Email.ToUpper(),
                 Name = registerationRequestDTO.Name,
-                PhoneNumber = registerationRequestDTO.PhoneNumber,
+                PhoneNumber = registerationRequestDTO.PhoneNumber
             };
+
             try
             {
                 var result = await _userManager.CreateAsync(user, registerationRequestDTO.Password);
@@ -87,19 +88,21 @@ namespace BirdTrading.Services.AuthAPI.Service
                 {
                     var userToReturn = _db.ApplicationUsers.First(u => u.UserName == registerationRequestDTO.Email);
 
-                    UserDTO userDTO = new()
+                    UserDTO userDto = new()
                     {
                         Email = userToReturn.Email,
                         Id = userToReturn.Id,
                         Name = userToReturn.Name,
                         PhoneNumber = userToReturn.PhoneNumber
                     };
+
                     return "";
                 }
                 else
                 {
                     return result.Errors.FirstOrDefault().Description;
                 }
+
             }
             catch (Exception ex)
             {

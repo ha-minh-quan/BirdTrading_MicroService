@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BirdTrading.Web.Models
+namespace BirdTrading.Service.OrderAPI.Models.DTO
 {
     public class CartHeaderDTO
     {

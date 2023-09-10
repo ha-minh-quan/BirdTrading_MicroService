@@ -4,7 +4,7 @@ namespace BirdTrading.Services.AuthAPI.Service.IService
 {
     public interface IAuthService
     {
-        Task<String> Register(RegisterationRequestDTO registerationRequestDTO);
+        Task<string> Register(RegisterationRequestDTO registerationRequestDTO);
         Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO);
         Task<bool> AssignRole(string email, string roleName);
     }

@@ -1,4 +1,5 @@
-﻿using BirdTrading.Services.AuthAPI.Models.Dto;
+﻿using BirdTrading.MessageBus;
+using BirdTrading.Services.AuthAPI.Models.Dto;
 using BirdTrading.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,21 +12,28 @@ namespace BirdTrading.Services.AuthAPI.Controllers
     {
         private readonly IAuthService _authService;
         protected ResponseDTO _response;
-        public AuthAPIController(IAuthService authService)
+        private readonly IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
+        public AuthAPIController(IAuthService authService, IMessageBus messageBus, IConfiguration configuration)
         {
             _authService = authService;
             _response = new();
+            _messageBus = messageBus;
+            _configuration = configuration;
         }
-        [HttpPost("register")]   
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterationRequestDTO model)
         {
+
             var errorMessage = await _authService.Register(model);
-            if (!string.IsNullOrEmpty(errorMessage)) {
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
                 _response.IsSuccess = false;
                 _response.Message = errorMessage;
                 return BadRequest(_response);
             }
-            return Ok(_response); 
+            await _messageBus.PublishMessage(model.Email, _configuration.GetValue<string>("TopicAndQueueNames:RegisterUserQueue"));
+            return Ok(_response);
         }
 
         [HttpPost("login")]

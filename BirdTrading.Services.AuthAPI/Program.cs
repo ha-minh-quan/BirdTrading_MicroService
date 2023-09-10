@@ -1,4 +1,5 @@
-    
+
+using BirdTrading.MessageBus;
 using BirdTrading.Services.AuthAPI.Data;
 using BirdTrading.Services.AuthAPI.Models;
 using BirdTrading.Services.AuthAPI.Service;
@@ -24,6 +25,7 @@ namespace BirdTrading.Services.AuthAPI
             builder.Services.AddControllers();
             builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IMessageBus, MessageBusClass>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
