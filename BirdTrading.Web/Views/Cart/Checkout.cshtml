@@ -1,5 +1,6 @@
 ﻿@model CartDTO
 
+
 <form method="post">
     <input asp-for="CartHeader.UserId" hidden />
     <input asp-for="CartHeader.CartHeaderId" hidden />
@@ -20,15 +21,15 @@
             <div class="col-7">
                 <div class="row pt-2">
                     <div class="col-12 py-2">
-                        <input  placeholder="full name..." class="form-control" />
+                        <input asp-for="CartHeader.Name" placeholder="Fullname..." class="form-control" />
                         <span asp-validation-for="CartHeader.Name" class="text-danger"></span>
                     </div>
                     <div class="col-12 py-2">
-                        <input placeholder="email..." class="form-control" />
+                        <input asp-for="CartHeader.Email" placeholder="Email..." class="form-control" />
                         <span asp-validation-for="CartHeader.Email" class="text-danger"></span>
                     </div>
                     <div class="col-12 py-2">
-                        <input class="form-control" placeholder="phone number..." />
+                        <input asp-for="CartHeader.Phone" class="form-control" placeholder="Phone number..." />
                         <span asp-validation-for="CartHeader.Phone" class="text-danger"></span>
                     </div>
                     <div class="col-12 pt-2">
@@ -55,28 +56,27 @@
                             </div>
                         </div>
                         <hr />
-                        @foreach(var cartObj in Model.CartDetails){
+                        @foreach(var carObj in Model.CartDetails){
                         <div class="row h-100">
                             <div class="col-6">
-                                <span style="font-size:20px">@cartObj.Product.Name</span>
+                                <span style="font-size:20px">@carObj.Product.Name</span>
                             </div>
 
                             <div class="col-3" style="font-size:11px;">
-                                    <span style="font-size:17px;"> @cartObj.Product.Price.ToString("c")</span>
+                                    <span style="font-size:17px;"> @carObj.Product.Price.ToString("c")</span>
 
                             </div>
                             <div class="col-3" style="font-size:11px;">
-                                    <span style="font-size:17px;"> @cartObj.Count</span>
+                                <span style="font-size:17px;"> @carObj.Count</span>
                             </div>
                         </div>
                         <hr />
                         }
                         <div class="row">
                             <div class="col-12 text-center pr-4 text-danger">
-                                Order Total :  @Model.CartHeader.CartTotal.ToString("c") <br />
-                                @if (Model.CartHeader.Discount > 0)
-                                {
-                                    <span class="text-success"> Order Discount :  @Model.CartHeader.Discount.ToString("c")</span>
+                                Order Total : @Model.CartHeader.CartTotal.ToString("c")<br />
+                                @if(Model.CartHeader.Discount > 0){
+                                <span class="text-success"> Order Discount : @Model.CartHeader.Discount.ToString("c")</span>
                                 }
                             </div>
                         </div>
@@ -98,6 +98,7 @@
     </div>
 </form>
 
-@section Scripts {
+@section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }
+

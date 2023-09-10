@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BirdTrading.MessageBus;
 using BirdTrading.Service.OrderAPI.Models;
 using BirdTrading.Service.OrderAPI.Models.DTO;
 using BirdTrading.Service.OrderAPI.Service.IService;
@@ -18,17 +19,20 @@ namespace BirdTrading.Service.OrderAPI.Controllers
         private IMapper _mapper;
         private readonly AppDbContext _db;
         private IProductService _productService;
-
-
-        public OrderAPIController(IProductService productService, IMapper mapper, AppDbContext db)
+        private readonly IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
+        public OrderAPIController(AppDbContext db,
+           IProductService productService, IMapper mapper, IConfiguration configuration
+           , IMessageBus messageBus)
         {
-            _db = db;   
-            this._response = new ResponseDTO(); 
-            _mapper = mapper;   
-            _productService = productService;   
+            _db = db;
+            _messageBus = messageBus;
+            this._response = new ResponseDTO();
+            _productService = productService;
+            _mapper = mapper;
+            _configuration = configuration;
         }
-
-        //[Authorize]
+       [Authorize]
         [HttpPost("CreateOrder")]
         public async Task<ResponseDTO> CreateOrder([FromBody] CartDTO cartDto)
         {
@@ -38,7 +42,7 @@ namespace BirdTrading.Service.OrderAPI.Controllers
                 orderHeaderDto.OrderTime = DateTime.Now;
                 orderHeaderDto.Status = SD.Status_Pending;
                 orderHeaderDto.OrderDetails = _mapper.Map<IEnumerable<OrderDetailsDTO>>(cartDto.CartDetails);
-                OrderHeader orderCreated = _db.OrderHeader.Add(_mapper.Map<OrderHeader>(orderHeaderDto)).Entity;
+                OrderHeader orderCreated = _db.OrderHeaders.Add(_mapper.Map<OrderHeader>(orderHeaderDto)).Entity;
                 await _db.SaveChangesAsync();
 
                 orderHeaderDto.OrderHeaderId = orderCreated.OrderHeaderId;

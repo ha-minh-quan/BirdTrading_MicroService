@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace BirdTrading.Web.Models
+﻿namespace BirdTrading.Web.Models
 {
     public class OrderDetailsDTO
     {

@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BirdTrading.Service.OrderAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class AddTableOrder : Migration
+    public partial class AddNew : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "OrderHeader",
+                name: "OrderHeaders",
                 columns: table => new
                 {
                     OrderHeaderId = table.Column<int>(type: "int", nullable: false)
@@ -21,17 +21,17 @@ namespace BirdTrading.Service.OrderAPI.Migrations
                     CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discount = table.Column<double>(type: "float", nullable: false),
                     OrderTotal = table.Column<double>(type: "float", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrderTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StripeSessionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StripeSessionId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderHeader", x => x.OrderHeaderId);
+                    table.PrimaryKey("PK_OrderHeaders", x => x.OrderHeaderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,9 +50,9 @@ namespace BirdTrading.Service.OrderAPI.Migrations
                 {
                     table.PrimaryKey("PK_OrderDetails", x => x.OrderDetailsId);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_OrderHeader_OrderHeaderId",
+                        name: "FK_OrderDetails_OrderHeaders_OrderHeaderId",
                         column: x => x.OrderHeaderId,
-                        principalTable: "OrderHeader",
+                        principalTable: "OrderHeaders",
                         principalColumn: "OrderHeaderId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -70,7 +70,7 @@ namespace BirdTrading.Service.OrderAPI.Migrations
                 name: "OrderDetails");
 
             migrationBuilder.DropTable(
-                name: "OrderHeader");
+                name: "OrderHeaders");
         }
     }
 }

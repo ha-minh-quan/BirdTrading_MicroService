@@ -1,6 +1,8 @@
 
 using AutoMapper;
 using BirdTrading.MessageBus;
+using BirdTrading.Service.OrderAPI.Service;
+using BirdTrading.Service.OrderAPI.Service.IService;
 using BirdTrading.Service.OrderAPI.Utility;
 using BirdTrading.Services.OrderAPI;
 using BirdTrading.Services.OrderAPI.Data;
@@ -26,6 +28,7 @@ namespace BirdTrading.Service.OrderAPI
             IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
             builder.Services.AddSingleton(mapper);
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<BackendApiAuthenthicationHttpClientHandler>();
             builder.Services.AddScoped<IMessageBus, MessageBusClass>();

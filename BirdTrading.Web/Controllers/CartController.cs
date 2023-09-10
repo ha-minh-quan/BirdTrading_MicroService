@@ -1,4 +1,5 @@
 ﻿using BirdTrading.Web.Models;
+using BirdTrading.Web.Service;
 using BirdTrading.Web.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ namespace BirdTrading.Web.Controllers
     {
         private readonly ICartService _cartService;
         private readonly IOrderService _orderService;
-        public CartController(ICartService cartService, IOrderService orderService)
+        public CartController(ICartService cartService, IOrderService orderService  )
         {
             _cartService = cartService;
             _orderService = orderService;
@@ -28,18 +29,20 @@ namespace BirdTrading.Web.Controllers
         }
         [HttpPost]
         [ActionName("Checkout")]
-        public async Task<IActionResult> Checkout(CartDTO cartDTO)
+        public async Task<IActionResult> Checkout(CartDTO cartDto)
         {
+
             CartDTO cart = await LoadCartDtoBasedOnLoggedInUser();
-            cart.CartHeader.Phone = cartDTO.CartHeader.Phone;       
-            cart.CartHeader.Email = cartDTO.CartHeader.Email;   
-            cart.CartHeader.Name = cartDTO.CartHeader.Name;
+            cart.CartHeader.Phone = cartDto.CartHeader.Phone;
+            cart.CartHeader.Email = cartDto.CartHeader.Email;
+            cart.CartHeader.Name = cartDto.CartHeader.Name;
 
             var response = await _orderService.CreateOrder(cart);
-            OrderHeaderDTO orderHeaderDTO = JsonConvert.DeserializeObject<OrderHeaderDTO>(Convert.ToString(response.Result));
+            OrderHeaderDTO orderHeaderDto = JsonConvert.DeserializeObject<OrderHeaderDTO>(Convert.ToString(response.Result));
+
             if (response != null && response.IsSuccess)
             {
-                // get stripe session and redirect to stripe to place order
+                //get stripe session and redirect to stripe to place order
             }
             return View();
         }

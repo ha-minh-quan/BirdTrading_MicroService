@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BirdTrading.Service.OrderAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230908173030_AddTableOrder")]
-    partial class AddTableOrder
+    [Migration("20230910153907_AddNew")]
+    partial class AddNew
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,11 +71,9 @@ namespace BirdTrading.Service.OrderAPI.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderTime")
@@ -88,7 +86,6 @@ namespace BirdTrading.Service.OrderAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
@@ -102,7 +99,7 @@ namespace BirdTrading.Service.OrderAPI.Migrations
 
                     b.HasKey("OrderHeaderId");
 
-                    b.ToTable("OrderHeader");
+                    b.ToTable("OrderHeaders");
                 });
 
             modelBuilder.Entity("BirdTrading.Service.OrderAPI.Models.OrderDetails", b =>

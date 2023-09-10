@@ -1,5 +1,4 @@
-﻿
-namespace BirdTrading.Service.OrderAPI.Models.DTO
+﻿namespace BirdTrading.Service.OrderAPI.Models.DTO
 {
     public class ResponseDTO
     {

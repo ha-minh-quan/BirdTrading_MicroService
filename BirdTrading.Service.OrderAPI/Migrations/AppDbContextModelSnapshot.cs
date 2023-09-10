@@ -68,11 +68,9 @@ namespace BirdTrading.Service.OrderAPI.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderTime")
@@ -85,7 +83,6 @@ namespace BirdTrading.Service.OrderAPI.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
@@ -99,7 +96,7 @@ namespace BirdTrading.Service.OrderAPI.Migrations
 
                     b.HasKey("OrderHeaderId");
 
-                    b.ToTable("OrderHeader");
+                    b.ToTable("OrderHeaders");
                 });
 
             modelBuilder.Entity("BirdTrading.Service.OrderAPI.Models.OrderDetails", b =>
