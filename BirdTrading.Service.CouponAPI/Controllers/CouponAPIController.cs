@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BirdTrading.Service.CouponAPI.Data;
+using Azure;
 
 namespace BirdTrading.Service.CouponAPI.Controllers
 {
@@ -14,13 +15,13 @@ namespace BirdTrading.Service.CouponAPI.Controllers
     public class CouponAPIController : ControllerBase
     {
         private readonly AppDbContext _db;
-        private ResponseDTO _respone;
+        private ResponseDTO _response;
         private IMapper _mapper;
 
         public CouponAPIController(AppDbContext DB, IMapper mapper)
         {
             _db = DB;
-            _respone = new ResponseDTO();
+            _response = new ResponseDTO();
             _mapper = mapper;
         }
 
@@ -30,15 +31,15 @@ namespace BirdTrading.Service.CouponAPI.Controllers
             try
             {
                 IEnumerable<Coupon> objList = _db.Coupons.ToList();
-                _respone.Result = _mapper.Map<IEnumerable<CouponDTO>>(objList);
+                _response.Result = _mapper.Map<IEnumerable<CouponDTO>>(objList);
 
             }
             catch (Exception ex)
             {
-                _respone.IsSuccess = false;
-                _respone.Message = ex.Message;
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
             }
-            return _respone;
+            return _response;
 
         }
 
@@ -49,15 +50,15 @@ namespace BirdTrading.Service.CouponAPI.Controllers
             try
             {
                 Coupon obj = _db.Coupons.First(o => o.CouponId == id);
-                _respone.Result = _mapper.Map<CouponDTO>(obj);
+                _response.Result = _mapper.Map<CouponDTO>(obj);
             }
             catch (Exception ex)
             {
-                _respone.IsSuccess = false;
-                _respone.Message = ex.Message;
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
 
             }
-            return _respone;
+            return _response;
 
         }
 
@@ -68,39 +69,49 @@ namespace BirdTrading.Service.CouponAPI.Controllers
             try
             {
                 Coupon obj = _db.Coupons.First(o => o.CouponCode.ToLower() == code.ToLower());
-                _respone.Result = _mapper.Map<CouponDTO>(obj);
+                _response.Result = _mapper.Map<CouponDTO>(obj);
             }
             catch (Exception ex)
             {
-                _respone.IsSuccess = false;
-                _respone.Message = ex.Message;
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
 
             }
-            return _respone;
+            return _response;
 
         }
 
         [HttpPost]
         [Authorize(Roles = "ADMIN")]
-        public ResponseDTO Create([FromBody] CouponDTO CouponDTO)
+        public ResponseDTO Post([FromBody] CouponDTO couponDto)
         {
             try
             {
-                Coupon obj = _mapper.Map<Coupon>(CouponDTO);
+                Coupon obj = _mapper.Map<Coupon>(couponDto);
                 _db.Coupons.Add(obj);
                 _db.SaveChanges();
 
-                _respone.Result = obj;
-                _respone.Message = "Create successfully!!!";
+
+
+                var options = new Stripe.CouponCreateOptions
+                {
+                    AmountOff = (long)(couponDto.DiscountAmount * 100),
+                    Name = couponDto.CouponCode,
+                    Currency = "usd",
+                    Id = couponDto.CouponCode,
+                };
+                var service = new Stripe.CouponService();
+                service.Create(options);
+
+
+                _response.Result = _mapper.Map<CouponDTO>(obj);
             }
             catch (Exception ex)
             {
-                _respone.IsSuccess = false;
-                _respone.Message = ex.Message;
-
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
             }
-            return _respone;
-
+            return _response;
         }
 
         [HttpPut]
@@ -113,16 +124,16 @@ namespace BirdTrading.Service.CouponAPI.Controllers
                 _db.Coupons.Update(obj);
                 _db.SaveChanges();
 
-                _respone.Result = obj;
-                _respone.Message = "Update successfully!!!";
+                _response.Result = obj;
+                _response.Message = "Update successfully!!!";
             }
             catch (Exception ex)
             {
-                _respone.IsSuccess = false;
-                _respone.Message = ex.Message;
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
 
             }
-            return _respone;
+            return _response;
 
         }
 
@@ -133,21 +144,22 @@ namespace BirdTrading.Service.CouponAPI.Controllers
         {
             try
             {
-                Coupon obj = _db.Coupons.First(o => o.CouponId == id);
-                _respone.Result = _mapper.Map<CouponDTO>(obj);
-
+                Coupon obj = _db.Coupons.First(u => u.CouponId == id);
                 _db.Coupons.Remove(obj);
                 _db.SaveChanges();
-                _respone.Message = "Delete successfully";
+
+
+                var service = new Stripe.CouponService();
+                service.Delete(obj.CouponCode);
+
+
             }
             catch (Exception ex)
             {
-                _respone.IsSuccess = false;
-                _respone.Message = ex.Message;
-
+                _response.IsSuccess = false;
+                _response.Message = ex.Message;
             }
-            return _respone;
-
+            return _response;
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using BirdTrading.Web.Models;
 using BirdTrading.Web.Service;
 using BirdTrading.Web.Service.IService;
+using BirdTrading.Web.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -27,6 +28,7 @@ namespace BirdTrading.Web.Controllers
         {
             return View(await LoadCartDtoBasedOnLoggedInUser());
         }
+
         [HttpPost]
         [ActionName("Checkout")]
         public async Task<IActionResult> Checkout(CartDTO cartDto)
@@ -43,10 +45,37 @@ namespace BirdTrading.Web.Controllers
             if (response != null && response.IsSuccess)
             {
                 //get stripe session and redirect to stripe to place order
+                var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+
+                StripeRequestDTO stripeRequestDTO = new()
+                {
+                    ApproveUrl = domain + "cart/Confirmation?orderId=" + orderHeaderDto.OrderHeaderId,
+                    CancelUrl = domain + "cart/checkout",
+                    OrderHeader = orderHeaderDto,
+                };
+
+                var stripeResponse = await _orderService.CreateStripeSession(stripeRequestDTO);
+                StripeRequestDTO stripeResponseResult = JsonConvert.DeserializeObject<StripeRequestDTO>(Convert.ToString(stripeResponse.Result));
+                Response.Headers.Add("Location", stripeResponseResult.StripeSessionUrl);
+                return new StatusCodeResult(303);
             }
             return View();
         }
 
+        [Authorize]
+        public async Task<IActionResult> Confirmation(int orderId)
+        {
+            ResponseDTO? response = await _orderService.ValidateStripeSession(orderId);
+            if (response != null & response.IsSuccess)
+            {
+                OrderHeaderDTO orderHeader = JsonConvert.DeserializeObject<OrderHeaderDTO>(Convert.ToString(response.Result));
+                if (orderHeader.Status == SD.Status_Approved)
+                {
+                    return View(orderId);
+                }
+            }
+            return View(orderId);
+        }
         public async Task<IActionResult> Remove(int cartDetailsId)
         {
             var userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;

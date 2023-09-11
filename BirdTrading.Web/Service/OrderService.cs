@@ -1,6 +1,9 @@
 ﻿using BirdTrading.Web.Models;
 using BirdTrading.Web.Service.IService;
 using BirdTrading.Web.Utility;
+using static BirdTrading.Web.Utility.SD;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System;
 
 namespace BirdTrading.Web.Service
 {
@@ -19,6 +22,26 @@ namespace BirdTrading.Web.Service
                 ApiType = SD.ApiType.POST,
                 Data = cartDto,
                 Url = SD.OrderAPIBase + "/api/order/CreateOrder"
+            });
+        }
+
+        public async Task<ResponseDTO?> CreateStripeSession(StripeRequestDTO stripeRequestDTO)
+        {
+            return await _baseService.SendAsync(new RequestDTO()
+            {
+                ApiType = SD.ApiType.POST,
+                Data = stripeRequestDTO,
+                Url = SD.OrderAPIBase + "/api/order/CreateStripeSession"
+            });
+        }
+
+        public async Task<ResponseDTO?> ValidateStripeSession(int orderHeaderId)
+        {
+            return await _baseService.SendAsync(new RequestDTO()
+            {
+                ApiType = SD.ApiType.POST,
+                Data = orderHeaderId,
+                Url = SD.OrderAPIBase + "/api/order/ValidateStripeSession"
             });
         }
     }
