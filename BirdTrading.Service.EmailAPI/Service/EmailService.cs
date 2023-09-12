@@ -1,4 +1,5 @@
-﻿using BirdTrading.Service.EmailAPI.Models;
+﻿using BirdTrading.Service.EmailAPI.Message;
+using BirdTrading.Service.EmailAPI.Models;
 using BirdTrading.Service.EmailAPI.Models.DTO;
 using BirdTrading.Services.EmailAPI.Data;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,12 @@ namespace BirdTrading.Service.EmailAPI.Service
             message.Append("</ul>");
 
             await LogAndEmail(message.ToString(), cartDTO.CartHeader.Email);
+        }
+
+        public async Task LogOrderPlaced(RewardsMessage rewardsDTO)
+        {
+            string message = "New Order Placed. <br/> Order ID : " + rewardsDTO.OrderId;
+            await LogAndEmail(message, "dotnetmastery@gmail.com");
         }
 
         public async Task RegisterUserEmailAndLog(string email)

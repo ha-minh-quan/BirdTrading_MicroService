@@ -139,7 +139,14 @@ namespace BirdTrading.Service.OrderAPI.Controllers
                     orderHeader.PaymentIntentId = paymentIntent.Id;
                     orderHeader.Status = SD.Status_Approved;
                     _db.SaveChanges();
-
+                    RewardsDTO rewardsDTO = new()
+                    {
+                        OrderId = orderHeader.OrderHeaderId,
+                        RewardActivity = Convert.ToInt32(orderHeader.OrderTotal),
+                        UserId = orderHeader.UserId
+                    };
+                    string topicName = _configuration.GetValue<string>("TopicAndQueueNames:OrderCreatedTopic");
+                    await _messageBus.PublishMessage(rewardsDTO, topicName);
                     _response.Result = _mapper.Map<OrderHeaderDTO>(orderHeader);
                 }
             }
