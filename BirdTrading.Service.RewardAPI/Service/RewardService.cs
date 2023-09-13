@@ -6,7 +6,7 @@ using BirdTrading.Services.RewardAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 
-namespace BirdTrading.Service.EmailAPI.Service
+namespace BirdTrading.Service.RewardAPI.Service
 {
     public class RewardService : IRewardService
     {
@@ -30,7 +30,7 @@ namespace BirdTrading.Service.EmailAPI.Service
                 };
 
                 await using var _db = new AppDbContext(_dbOptions);
-                _db.Rewards.AddAsync(rewards);
+                await _db.Rewards.AddAsync(rewards);
                 await _db.SaveChangesAsync();   
 
             } catch (Exception ex) {

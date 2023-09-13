@@ -1,9 +1,8 @@
 ﻿using Azure.Messaging.ServiceBus;
-using BirdTrading.Service.EmailAPI.Service;
 using BirdTrading.Service.RewardAPI.Message;
+using BirdTrading.Service.RewardAPI.Service;
 using Newtonsoft.Json;
 using System.Text;
-using System.Text.Json.Serialization;
 
 namespace BirdTrading.Service.RewardAPI.Messaging
 {
@@ -14,9 +13,9 @@ namespace BirdTrading.Service.RewardAPI.Messaging
         private readonly string orderCreatedRewardSubscription;
         private readonly IConfiguration _configuration;
         private readonly RewardService _rewardService;
-      
+
         private ServiceBusProcessor _rewardProcessor;
-        
+
 
         public AzureServiceBusConsumer(IConfiguration configuration, RewardService rewardService)
         {
@@ -25,7 +24,7 @@ namespace BirdTrading.Service.RewardAPI.Messaging
             serviceBusConnectionString = _configuration.GetValue<string>("ServiceBusConnectionString");
 
             orderCreatedTopic = _configuration.GetValue<string>("TopicAndQueueNames:OrderCreated");
-            orderCreatedRewardSubscription = _configuration.GetValue<string>("TopicAndQueueNames:OrderCreatedRewardsUpdate");
+            orderCreatedRewardSubscription = _configuration.GetValue<string>("TopicAndQueueNames:OrderCreated_Rewards_Subscription");
             var client = new ServiceBusClient(serviceBusConnectionString);
 
             _rewardProcessor = client.CreateProcessor(orderCreatedTopic, orderCreatedRewardSubscription);
@@ -53,7 +52,7 @@ namespace BirdTrading.Service.RewardAPI.Messaging
             RewardsMessage objMessage = JsonConvert.DeserializeObject<RewardsMessage>(body);
             try
             {
-               await  _rewardService.UpdateRewards(objMessage);
+                await _rewardService.UpdateRewards(objMessage);
                 await args.CompleteMessageAsync(args.Message);
             }
             catch (Exception ex)
@@ -64,8 +63,8 @@ namespace BirdTrading.Service.RewardAPI.Messaging
 
         public async Task Stop()
         {
-           await _rewardProcessor.StopProcessingAsync();
-           await _rewardProcessor.DisposeAsync();
+            await _rewardProcessor.StopProcessingAsync();
+            await _rewardProcessor.DisposeAsync();
         }
     }
 }

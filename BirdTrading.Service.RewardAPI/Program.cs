@@ -1,7 +1,6 @@
-
-using BirdTrading.Service.EmailAPI.Service;
 using BirdTrading.Service.RewardAPI.Extension;
 using BirdTrading.Service.RewardAPI.Messaging;
+using BirdTrading.Service.RewardAPI.Service;
 using BirdTrading.Services.RewardAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
