@@ -1,6 +1,7 @@
 ﻿using BirdTrading.Web.Models;
 using BirdTrading.Web.Service.IService;
 using BirdTrading.Web.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace BirdTrading.Web.Controllers
         public OrderController(IOrderService orderService) 
         {
             _orderService = orderService;   
-        }    
+        }
+        [Authorize]
         public IActionResult OrderIndex()
         {
             return View();
@@ -37,8 +39,48 @@ namespace BirdTrading.Web.Controllers
             return View(orderHeaderDTO);
         }
 
+        [HttpPost("OrderReadyForPickup")]
+        public async Task<IActionResult> OrderReadyForPickup(int orderId)
+        {
+            var response = await _orderService.UpdateOrderStatus(orderId, SD.Status_ReadyForPickup);
+            if (response != null && response.IsSuccess) 
+            {
+                TempData["success"] = "Status updated successfully";
+                return RedirectToAction(nameof(OrderDetail), new { orderId = orderId });
+            }
+
+            return View();
+        }
+
+        [HttpPost("CompleteOrder")]
+        public async Task<IActionResult> CompleteOrder(int orderId)
+        {
+            var response = await _orderService.UpdateOrderStatus(orderId, SD.Status_Completed);
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Status updated successfully";
+                return RedirectToAction(nameof(OrderDetail), new { orderId = orderId });
+            }
+
+            return View();
+        }
+
+        [HttpPost("CancelOrder")]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            var response = await _orderService.UpdateOrderStatus(orderId, SD.Status_Cancelled);
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Status updated successfully";
+                return RedirectToAction(nameof(OrderDetail), new { orderId = orderId });
+            }
+
+            return View();
+        }
+
+
         [HttpGet]
-        public IActionResult GetALl() 
+        public IActionResult GetALl(string status) 
         {
             IEnumerable<OrderHeaderDTO> list;
             string userId = "";
@@ -50,6 +92,20 @@ namespace BirdTrading.Web.Controllers
             if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<OrderHeaderDTO>>(Convert.ToString(response.Result));
+                switch (status)
+                {
+                    case "approved":
+                            list = list.Where(u => u.Status == SD.Status_Approved);
+                        break;
+                    case "readyforpickup":
+                        list = list.Where(u => u.Status == SD.Status_ReadyForPickup);
+                        break;
+                    case "cancelled":
+                        list = list.Where(u => u.Status == SD.Status_Cancelled);
+                        break;
+                    default:
+                        break;
+                }
             }
             else
             {

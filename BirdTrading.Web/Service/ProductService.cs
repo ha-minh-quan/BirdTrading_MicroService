@@ -39,22 +39,14 @@ namespace BirdTrading.Web.Service
 			});
         }
 
-        public async Task<ResponseDTO?> GetProductByName(string name)
-        {
-            return await _baseService.SendAsync(new RequestDTO()
-            {
-                ApiType = SD.ApiType.GET,
-                Url = SD.ProductAPIBase + "/api/product/GetProductByName/"+name
-            });
-        }
-
         public async Task<ResponseDTO?> UpdateProduct(ProductDTO productDTO)
         {
             return await _baseService.SendAsync(new RequestDTO()
             {
                 ApiType = SD.ApiType.PUT,
                 Data = productDTO,
-                Url = SD.ProductAPIBase + "/api/product"
+                Url = SD.ProductAPIBase + "/api/product",
+                ContentType = SD.ContentType.MultipartFormData
             });
         }
         public async Task<ResponseDTO?> AddNewProduct(ProductDTO productDTO)
@@ -63,8 +55,9 @@ namespace BirdTrading.Web.Service
 			{
 				ApiType = SD.ApiType.POST,
                 Data = productDTO,
-				Url = SD.ProductAPIBase + "/api/product"
-			});
+				Url = SD.ProductAPIBase + "/api/product",
+                ContentType = SD.ContentType.MultipartFormData
+            });
 
 		}
     }

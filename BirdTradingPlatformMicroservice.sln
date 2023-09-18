@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.Service.OrderAP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.Service.RewardAPI", "BirdTrading.Service.RewardAPI\BirdTrading.Service.RewardAPI.csproj", "{019F80A9-DC4C-4079-A047-804F1BDEE8FC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BirdTrading.GatewaySolution", "BirdTrading.GatewaySolution\BirdTrading.GatewaySolution.csproj", "{280E89BD-CAB6-4AE2-93D6-8E67C6A79E91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{019F80A9-DC4C-4079-A047-804F1BDEE8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{019F80A9-DC4C-4079-A047-804F1BDEE8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{019F80A9-DC4C-4079-A047-804F1BDEE8FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{280E89BD-CAB6-4AE2-93D6-8E67C6A79E91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{280E89BD-CAB6-4AE2-93D6-8E67C6A79E91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{280E89BD-CAB6-4AE2-93D6-8E67C6A79E91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{280E89BD-CAB6-4AE2-93D6-8E67C6A79E91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{4DBBCB19-752B-4A9C-B798-194BAA5FA03A} = {90C3303A-1DCD-4E9B-BEAF-C666B5BE478D}
 		{4451B44E-AAD6-4442-B800-3A91F09B4FCE} = {90C3303A-1DCD-4E9B-BEAF-C666B5BE478D}
 		{019F80A9-DC4C-4079-A047-804F1BDEE8FC} = {90C3303A-1DCD-4E9B-BEAF-C666B5BE478D}
+		{280E89BD-CAB6-4AE2-93D6-8E67C6A79E91} = {E30F37CF-8514-44F6-A5E5-EB41E90CB05F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C73EEB23-4FCD-44A5-88AE-1301B63064D7}

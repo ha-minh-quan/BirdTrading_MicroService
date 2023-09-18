@@ -51,7 +51,7 @@ namespace BirdTrading.Web.Controllers
                 {
                     TempData["error"] = response?.Message;
                 }
-            }
+        }
 			return View(product);
 		}
         public async Task<IActionResult> ProductDelete(int productId)
@@ -102,15 +102,18 @@ namespace BirdTrading.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductEdit(ProductDTO product)
         {
-            ResponseDTO? response = await _productService.UpdateProduct(product);
-            if (response != null && response.IsSuccess)
+            if (ModelState.IsValid)
             {
-                TempData["success"] = "Product updated successfully";
-                return RedirectToAction(nameof(ProductIndex));
-            }
-            else
-            {
-                TempData["error"] = response?.Message;
+                ResponseDTO? response = await _productService.UpdateProduct(product);
+                if (response != null && response.IsSuccess)
+                {
+                    TempData["success"] = "Product updated successfully";
+                    return RedirectToAction(nameof(ProductIndex));
+                }
+                else
+                {
+                    TempData["error"] = response?.Message;
+                }
             }
             return View(product);
         }

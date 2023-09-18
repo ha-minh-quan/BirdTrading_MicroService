@@ -29,6 +29,7 @@ namespace BirdTrading.Web.Controllers
             return View(await LoadCartDtoBasedOnLoggedInUser());
         }
 
+
         [HttpPost]
         [ActionName("Checkout")]
         public async Task<IActionResult> Checkout(CartDTO cartDto)

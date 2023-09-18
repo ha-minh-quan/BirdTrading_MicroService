@@ -109,7 +109,6 @@ namespace BirdTrading.Service.OrderAPI.Controllers
         {
             try
             {
-                StripeConfiguration.ApiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
                 var options = new SessionCreateOptions
                 {
                     SuccessUrl = stripeRequestDTO.ApproveUrl,
