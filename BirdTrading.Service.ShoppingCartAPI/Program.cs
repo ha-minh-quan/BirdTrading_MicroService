@@ -7,6 +7,7 @@ using BirdTrading.Service.ShoppingCartAPI.Utility;
 using BirdTrading.Services.ShoppingCartAPI;
 using BirdTrading.Services.ShoppingCartAPI.Data;
 using BirdTrading.Services.ShoppingCartAPI.Extensions;
+using BirdTrading.Services.ShoppingCartAPI.RabbitMQSender;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Azure.Amqp.Framing;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +34,7 @@ namespace BirdTrading.Service.ShoppingCartAPI
             builder.Services.AddHttpContextAccessor();  
             builder.Services.AddScoped<BackendApiAuthenthicationHttpClientHandler>();   
             builder.Services.AddScoped<ICouponService, CouponService>();
-            builder.Services.AddScoped<IMessageBus, MessageBusClass>();
+            builder.Services.AddScoped<IRabbitMQCartSenderMessageSender, RabbitMQCartSenderMessageSender>();
             builder.Services.AddHttpClient("Product", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])).AddHttpMessageHandler<BackendApiAuthenthicationHttpClientHandler>();
             builder.Services.AddHttpClient("Coupon", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])).AddHttpMessageHandler<BackendApiAuthenthicationHttpClientHandler>();
             builder.Services.AddControllers();
@@ -75,7 +76,6 @@ namespace BirdTrading.Service.ShoppingCartAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseAuthorization();

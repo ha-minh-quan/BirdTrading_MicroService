@@ -22,6 +22,9 @@ namespace BirdTrading.Service.EmailAPI
             optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DB"));
             builder.Services.AddSingleton(new EmailService(optionBuilder.Options));
 
+            builder.Services.AddHostedService<RabbitMQAuthConsumer>();
+            builder.Services.AddHostedService<RabbitMQOrderConsumer>();
+            builder.Services.AddHostedService<RabbitMQCartConsumer>();
             builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

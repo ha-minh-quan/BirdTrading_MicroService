@@ -23,7 +23,7 @@ namespace BirdTrading.Service.RewardAPI
             var optionBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DB"));
             builder.Services.AddSingleton(new RewardService(optionBuilder.Options));
-
+            builder.Services.AddHostedService<RabbitMQOrderConsumer>();
             builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>(); 
 
             builder.Services.AddControllers();

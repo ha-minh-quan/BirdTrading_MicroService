@@ -5,6 +5,7 @@ using BirdTrading.Service.OrderAPI.Models.DTO;
 using BirdTrading.Service.OrderAPI.Service.IService;
 using BirdTrading.Service.OrderAPI.Utility;
 using BirdTrading.Services.OrderAPI.Data;
+using BirdTrading.Services.OrderAPI.RabbitMQSender;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,11 +23,11 @@ namespace BirdTrading.Service.OrderAPI.Controllers
         private IMapper _mapper;
         private readonly AppDbContext _db;
         private IProductService _productService;
-        private readonly IMessageBus _messageBus;
+        private readonly IRabbitMQOrderSenderMessageSender _messageBus;
         private readonly IConfiguration _configuration;
         public OrderAPIController(AppDbContext db,
            IProductService productService, IMapper mapper, IConfiguration configuration
-           , IMessageBus messageBus)
+           , IRabbitMQOrderSenderMessageSender messageBus)
         {
             _db = db;
             _messageBus = messageBus;
@@ -192,7 +193,7 @@ namespace BirdTrading.Service.OrderAPI.Controllers
                         UserId = orderHeader.UserId
                     };
                     string topicName = _configuration.GetValue<string>("TopicAndQueueNames:OrderCreatedTopic");
-                    await _messageBus.PublishMessage(rewardsDTO, topicName);
+                     _messageBus.SendMessage(rewardsDTO, topicName);
                     _response.Result = _mapper.Map<OrderHeaderDTO>(orderHeader);
                 }
             }

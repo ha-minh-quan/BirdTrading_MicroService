@@ -6,6 +6,7 @@ using BirdTrading.Service.ShoppingCartAPI.Models.DTO;
 using BirdTrading.Service.ShoppingCartAPI.Service;
 using BirdTrading.Service.ShoppingCartAPI.Service.IService;
 using BirdTrading.Services.ShoppingCartAPI.Data;
+using BirdTrading.Services.ShoppingCartAPI.RabbitMQSender;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,12 +23,12 @@ namespace BirdTrading.Service.ShoppingCartAPI.Controllers
         private readonly AppDbContext _db;
         private  IProductService _productService;
         private  ICouponService _couponService;
-        private readonly IMessageBus _messageBus;
+        private readonly IRabbitMQCartSenderMessageSender _messageBus;
         private IConfiguration _configuration;
         public CartAPIController(AppDbContext db,
             IMapper mapper, IProductService productService, 
             ICouponService couponService,
-            IMessageBus messageBus,
+            IRabbitMQCartSenderMessageSender messageBus,
             IConfiguration configuration)
         {
             _db = db;
@@ -103,7 +104,7 @@ namespace BirdTrading.Service.ShoppingCartAPI.Controllers
         {
             try
             {
-                await _messageBus.PublishMessage(cartDto, _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCartQueue"));
+                 _messageBus.SendMessage(cartDto, _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCartQueue"));
                 _response.Result = true;
             }
             catch (Exception ex)

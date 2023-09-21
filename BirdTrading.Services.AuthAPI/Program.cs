@@ -2,6 +2,7 @@
 using BirdTrading.MessageBus;
 using BirdTrading.Services.AuthAPI.Data;
 using BirdTrading.Services.AuthAPI.Models;
+using BirdTrading.Services.AuthAPI.RabbitMQSender;
 using BirdTrading.Services.AuthAPI.Service;
 using BirdTrading.Services.AuthAPI.Service.IService;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +26,7 @@ namespace BirdTrading.Services.AuthAPI
             builder.Services.AddControllers();
             builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             builder.Services.AddScoped<IAuthService, AuthService>();
-            builder.Services.AddScoped<IMessageBus, MessageBusClass>();
+            builder.Services.AddScoped<IRabbitMQAuthSenderMessageSender, RabbitMQAuthSenderMessageSender>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -33,6 +34,7 @@ namespace BirdTrading.Services.AuthAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

@@ -7,6 +7,7 @@ using BirdTrading.Service.OrderAPI.Utility;
 using BirdTrading.Services.OrderAPI;
 using BirdTrading.Services.OrderAPI.Data;
 using BirdTrading.Services.OrderAPI.Extensions;
+using BirdTrading.Services.OrderAPI.RabbitMQSender;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -31,7 +32,7 @@ namespace BirdTrading.Service.OrderAPI
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<BackendApiAuthenthicationHttpClientHandler>();
-            builder.Services.AddScoped<IMessageBus, MessageBusClass>();
+            builder.Services.AddScoped<IRabbitMQOrderSenderMessageSender, RabbitMQOrderSenderMessageSender>();
             builder.Services.AddHttpClient("Product", u => u.BaseAddress = new Uri(builder.Configuration["ServiceUrls:ProductAPI"])).AddHttpMessageHandler<BackendApiAuthenthicationHttpClientHandler>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

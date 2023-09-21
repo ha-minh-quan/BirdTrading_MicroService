@@ -29,4 +29,10 @@
     <ProjectReference Include="..\BirdTrading.Service.RewardAPI\BirdTrading.Service.RewardAPI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
